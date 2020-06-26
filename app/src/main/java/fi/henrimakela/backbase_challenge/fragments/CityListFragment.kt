@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 
 import fi.henrimakela.backbase_challenge.R
+import fi.henrimakela.backbase_challenge.repository.CityRepository
 import kotlinx.android.synthetic.main.fragment_city_list.*
+import org.koin.android.ext.android.inject
 
 /**
  * A simple [Fragment] subclass.
@@ -20,6 +22,7 @@ class CityListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_city_list, container, false)
     }
 
