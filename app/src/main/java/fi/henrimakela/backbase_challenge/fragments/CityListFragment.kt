@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import fi.henrimakela.backbase_challenge.R
+import fi.henrimakela.backbase_challenge.data_classes.City
+import fi.henrimakela.backbase_challenge.recyclerview.CityListAdapter
 import fi.henrimakela.backbase_challenge.repository.CityRepository
 import fi.henrimakela.backbase_challenge.view_models.CityListViewModel
 import kotlinx.android.synthetic.main.fragment_city_list.*
@@ -21,6 +24,8 @@ import org.koin.android.ext.android.inject
 class CityListFragment : Fragment() {
 
     private lateinit var viewModel: CityListViewModel
+    private lateinit var cityListAdapter: CityListAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,11 +37,15 @@ class CityListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CityListViewModel::class.java)
 
+        viewModel = ViewModelProvider(this).get(CityListViewModel::class.java)
+        cityListAdapter = CityListAdapter(emptyList())
+        city_recycler_view.adapter = cityListAdapter
+        city_recycler_view.layoutManager = LinearLayoutManager(this.context)
 
         viewModel.cityList.observe(viewLifecycleOwner, Observer {
             println(it)
+            cityListAdapter.setCities(it)
         })
 
 
