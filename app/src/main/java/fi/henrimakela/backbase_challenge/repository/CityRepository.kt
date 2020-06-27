@@ -22,7 +22,10 @@ class CityRepository(val context: Context) {
         val gson = Gson()
         val cityList: ArrayList<City> =
             gson.fromJson(jsonString, founderListType)
-        return cityList
+
+        //sort to alphabetical order
+        var sortedList = ArrayList<City>(cityList.sortedWith(compareBy {it.name}))
+        return sortedList
     }
 
     private fun getJsonDataFromAsset(context: Context, fileName: String): String? {
