@@ -1,12 +1,16 @@
 package fi.henrimakela.backbase_challenge.recyclerview
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import fi.henrimakela.backbase_challenge.R
 import fi.henrimakela.backbase_challenge.data_classes.City
 
 
-class CityListAdapter(var cityList: List<City>) : RecyclerView.Adapter<CityViewHolder>() {
+class CityListAdapter(var cityList: ArrayList<City>) : RecyclerView.Adapter<CityViewHolder>(), Filterable {
+
+    private var cityListFull: List<City> = ArrayList<City>(cityList)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.city_list_item, parent, false)
@@ -24,10 +28,49 @@ class CityListAdapter(var cityList: List<City>) : RecyclerView.Adapter<CityViewH
 
     }
 
-    fun setCities(cities: List<City>){
+    fun setCities(cities: ArrayList<City>){
         this.cityList = cities
+        this.cityListFull = ArrayList<City>(cities)
+
         notifyDataSetChanged()
     }
+
+    override fun getFilter(): Filter {
+        return filter
+    }
+
+    private val filter :Filter = object : Filter(){
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filteredList: ArrayList<City> = ArrayList()
+
+            if(constraint == null || constraint.isEmpty()){
+                filteredList.addAll(cityListFull)
+            }
+            else {
+                //case insensitivity
+                var searchWord = constraint.toString().toLowerCase()
+                cityListFull.forEach {
+                    if(it.name.toLowerCase().contains(searchWord)){
+                        filteredList.add(it)
+                    }
+                }
+            }
+
+            val results = FilterResults()
+            results.values = filteredList
+
+            return results
+        }
+
+        override fun publishResults(p0: CharSequence?, results: FilterResults?) {
+            cityList.clear()
+            cityList.addAll(results?.values as ArrayList<City>)
+            notifyDataSetChanged()
+        }
+
+    }
+
+
 }
 
 

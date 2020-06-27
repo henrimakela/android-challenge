@@ -11,9 +11,9 @@ import org.koin.java.KoinJavaComponent.inject
 
 class CityListViewModel : ViewModel(), KoinComponent {
 
-    private var _cityList : MutableLiveData<List<City>> = MutableLiveData()
+    private var _cityList : MutableLiveData<ArrayList<City>> = MutableLiveData()
     private val repository: CityRepository by inject()
-    val cityList: LiveData<List<City>> get() = _cityList
+    val cityList: LiveData<ArrayList<City>> get() = _cityList
 
 
     init {

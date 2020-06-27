@@ -1,10 +1,11 @@
 package fi.henrimakela.backbase_challenge.fragments
 
 import android.os.Bundle
+import android.view.*
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
+
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -26,6 +27,10 @@ class CityListFragment : Fragment() {
     private lateinit var viewModel: CityListViewModel
     private lateinit var cityListAdapter: CityListAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,7 +44,7 @@ class CityListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = ViewModelProvider(this).get(CityListViewModel::class.java)
-        cityListAdapter = CityListAdapter(emptyList())
+        cityListAdapter = CityListAdapter(arrayListOf())
         city_recycler_view.adapter = cityListAdapter
         city_recycler_view.layoutManager = LinearLayoutManager(this.context)
 
@@ -49,6 +54,26 @@ class CityListFragment : Fragment() {
         })
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        activity?.menuInflater?.inflate(R.menu.city_list_menu, menu)
+
+        var searchItem = menu.findItem(R.id.action_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                cityListAdapter.filter.filter(newText)
+                return false
+            }
+
+        })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
 }

@@ -15,12 +15,12 @@ class CityRepository(val context: Context) {
     private val cityList: List<String> = mutableListOf()
     private val REPOSITORY_TAG = "CityRepository"
 
-    fun loadCities(): List<City> {
+    fun loadCities(): ArrayList<City> {
         var jsonString = getJsonDataFromAsset(context, "cities.json")
 
         val founderListType: Type = object : TypeToken<ArrayList<City?>?>() {}.type
         val gson = Gson()
-        val cityList: List<City> =
+        val cityList: ArrayList<City> =
             gson.fromJson(jsonString, founderListType)
         return cityList
     }
