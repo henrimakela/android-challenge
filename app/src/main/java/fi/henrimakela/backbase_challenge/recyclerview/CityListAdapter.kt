@@ -8,7 +8,7 @@ import fi.henrimakela.backbase_challenge.R
 import fi.henrimakela.backbase_challenge.data_classes.City
 
 
-class CityListAdapter(var cityList: ArrayList<City>) : RecyclerView.Adapter<CityViewHolder>(), Filterable {
+class CityListAdapter(var cityList: ArrayList<City>, val listener: OnCitySelectedListener) : RecyclerView.Adapter<CityViewHolder>(), Filterable {
 
     private var cityListFull: List<City> = ArrayList<City>(cityList)
 
@@ -25,6 +25,10 @@ class CityListAdapter(var cityList: ArrayList<City>) : RecyclerView.Adapter<City
         holder.title.text = "${cityList[position].name} ${cityList[position].country}"
         holder.subtitle.text =
             "lat: ${cityList[position].coord.lat} lon: ${cityList[position].coord.lon}"
+
+        holder.itemView.setOnClickListener {
+            listener.OnCitySelected(cityList[position])
+        }
 
     }
 

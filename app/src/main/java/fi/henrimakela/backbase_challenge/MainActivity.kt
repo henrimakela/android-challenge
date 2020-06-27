@@ -2,6 +2,7 @@ package fi.henrimakela.backbase_challenge
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelStoreOwner
 import fi.henrimakela.backbase_challenge.repository.CityRepository
 import org.koin.android.ext.android.inject
 

@@ -9,11 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import fi.henrimakela.backbase_challenge.R
 import fi.henrimakela.backbase_challenge.data_classes.City
 import fi.henrimakela.backbase_challenge.recyclerview.CityListAdapter
+import fi.henrimakela.backbase_challenge.recyclerview.OnCitySelectedListener
 import fi.henrimakela.backbase_challenge.repository.CityRepository
 import fi.henrimakela.backbase_challenge.view_models.CityListViewModel
 import kotlinx.android.synthetic.main.fragment_city_list.*
@@ -22,7 +25,7 @@ import org.koin.android.ext.android.inject
 /**
  * A simple [Fragment] subclass.
  */
-class CityListFragment : Fragment() {
+class CityListFragment : Fragment(), OnCitySelectedListener {
 
     private lateinit var viewModel: CityListViewModel
     private lateinit var cityListAdapter: CityListAdapter
@@ -42,9 +45,8 @@ class CityListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel = ViewModelProvider(this).get(CityListViewModel::class.java)
-        cityListAdapter = CityListAdapter(arrayListOf())
+        viewModel = ViewModelProvider(findNavController().getViewModelStoreOwner(R.id.app_nav_graph)).get(CityListViewModel::class.java)
+        cityListAdapter = CityListAdapter(arrayListOf(), this)
         city_recycler_view.adapter = cityListAdapter
         city_recycler_view.layoutManager = LinearLayoutManager(this.context)
 
@@ -74,6 +76,12 @@ class CityListFragment : Fragment() {
 
         })
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun OnCitySelected(city: City) {
+        viewModel.setSelectedCity(city)
+
+        Navigation.findNavController(this.requireView()).navigate(R.id.mapFragment)
     }
 
 }
