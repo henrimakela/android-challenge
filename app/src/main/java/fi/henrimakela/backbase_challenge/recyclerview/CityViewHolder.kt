@@ -8,4 +8,5 @@ import kotlinx.android.synthetic.main.city_list_item.view.*
 
 class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val title: TextView = itemView.findViewById(R.id.city_title)
+    val subtitle: TextView = itemView.findViewById(R.id.city_subtitle)
 }

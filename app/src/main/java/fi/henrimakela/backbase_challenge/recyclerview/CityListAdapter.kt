@@ -18,7 +18,10 @@ class CityListAdapter(var cityList: List<City>) : RecyclerView.Adapter<CityViewH
     }
 
     override fun onBindViewHolder(holder: CityViewHolder, position: Int) {
-        holder.title.text = cityList[position].name
+        holder.title.text = "${cityList[position].name} ${cityList[position].country}"
+        holder.subtitle.text =
+            "lat: ${cityList[position].coord.lat} lon: ${cityList[position].coord.lon}"
+
     }
 
     fun setCities(cities: List<City>){
