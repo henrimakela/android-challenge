@@ -48,6 +48,10 @@ class CityListFragment : Fragment(), OnCitySelectedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Use nav controller as a viewmodel store owner since both list and map fragments are its children.
+        // This way they share the same view model and can share data
+
         viewModel = ViewModelProvider(findNavController().getViewModelStoreOwner(R.id.app_nav_graph)).get(CityListViewModel::class.java)
         cityListAdapter = CityListAdapter(arrayListOf(), this)
         city_recycler_view.adapter = cityListAdapter
@@ -96,6 +100,7 @@ class CityListFragment : Fragment(), OnCitySelectedListener {
         viewModel.setSelectedCity(city)
 
         val isLandscape = requireContext().resources.getBoolean(R.bool.isLandscape)
+        // If the device is in a landscape mode, we don't need to use the navigator since the landscape mode has it's own master-detail view
 
         if(!isLandscape){
             Navigation.findNavController(this.requireView()).navigate(R.id.mapFragment)

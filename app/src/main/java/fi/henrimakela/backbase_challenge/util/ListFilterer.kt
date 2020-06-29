@@ -23,8 +23,11 @@ class ListFilterer {
 
 
             //non-linear approach
+            //first, binary search and return the first object that matches with the searchword
             var index = binarySearch(list, searchWord)
 
+
+            //then go backwards and forwards from the found index until there's no more matching objects
             if (index > -1){
                 var bIndex = index;
                 var fIndex = index;
@@ -57,6 +60,11 @@ class ListFilterer {
 
 
         private fun binarySearch(list: List<City>, searchWord: String): Int{
+
+            // Needs to be a sorted list. First look from the middle of the list. If the object in the middle starts with the search word, return it.
+            // Otherwise check if the value is lower or higher and start searching either from the middle of the lower or the higher part.
+            // Repeat until the object is found
+
             var low = 0
             var high = list.size - 1
 

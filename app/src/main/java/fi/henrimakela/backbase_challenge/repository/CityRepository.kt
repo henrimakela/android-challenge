@@ -12,8 +12,6 @@ import java.lang.reflect.Type
 class CityRepository(val context: Context) {
 
 
-    private val cityList: List<String> = mutableListOf()
-    private val REPOSITORY_TAG = "CityRepository"
 
     fun loadCities(): ArrayList<City> {
         var jsonString = getJsonDataFromAsset(context, "cities.json")
