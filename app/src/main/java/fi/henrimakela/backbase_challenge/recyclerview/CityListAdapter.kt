@@ -6,11 +6,13 @@ import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import fi.henrimakela.backbase_challenge.R
 import fi.henrimakela.backbase_challenge.data_classes.City
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class CityListAdapter(var cityList: ArrayList<City>, val listener: OnCitySelectedListener) : RecyclerView.Adapter<CityViewHolder>(), Filterable {
 
-    private var cityListFull: List<City> = ArrayList<City>(cityList)
+    private var cityListFull: ArrayList<City> = ArrayList(cityList)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.city_list_item, parent, false)
@@ -34,7 +36,7 @@ class CityListAdapter(var cityList: ArrayList<City>, val listener: OnCitySelecte
 
     fun setCities(cities: ArrayList<City>){
         this.cityList = cities
-        this.cityListFull = ArrayList<City>(cities)
+        this.cityListFull = ArrayList(cities)
 
         notifyDataSetChanged()
     }
@@ -51,12 +53,48 @@ class CityListAdapter(var cityList: ArrayList<City>, val listener: OnCitySelecte
                 filteredList.addAll(cityListFull)
             }
             else {
-                //case insensitivity
-                var searchWord = constraint.toString().toLowerCase()
+
+
+
+                //linear approach
+                /*var searchWord = constraint.toString()
                 cityListFull.forEach {
-                    if(it.name.toLowerCase().contains(searchWord)){
+                    if(it.name.startsWith(searchWord, true)){
                         filteredList.add(it)
                     }
+                }
+
+            */
+
+                //non-linear approach
+                var searchWord = constraint.toString().trim()
+                var index = binarySearch(cityListFull, searchWord)
+
+                if (index > -1){
+                    var bIndex = index;
+                    var fIndex = index;
+
+                    //go backwards on the list
+                    while(bIndex > 0){
+                        if(cityListFull[bIndex].name.startsWith(searchWord, true)){
+                            filteredList.add(cityListFull[bIndex])
+                            bIndex--
+                        }
+                        else{
+                            break
+                        }
+                    }
+                    // go forward on the list
+                    while(fIndex < cityListFull.size){
+                        if(cityListFull[fIndex].name.startsWith(searchWord, true)){
+                            filteredList.add(cityListFull[fIndex])
+                            fIndex++
+                        }
+                        else{
+                            break
+                        }
+                    }
+
                 }
             }
 
@@ -72,6 +110,27 @@ class CityListAdapter(var cityList: ArrayList<City>, val listener: OnCitySelecte
             notifyDataSetChanged()
         }
 
+    }
+
+    private fun binarySearch(list: List<City>, searchWord: String): Int{
+        var low = 0
+        var high = list.size - 1
+
+        while(low <= high){
+            var mid = (low + high) / 2
+            if(list.get(mid).name.startsWith(searchWord, true)){
+                return mid
+            }
+            else if(searchWord.toLowerCase() < list[mid].name.toLowerCase()){
+                high = mid - 1
+            }
+            else{
+                low = mid + 1
+            }
+
+        }
+
+        return -1
     }
 
 

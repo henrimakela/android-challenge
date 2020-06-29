@@ -6,6 +6,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.CityListFragment">
 
+<ProgressBar
+    android:id="@+id/progress_indicator"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    />
+    <TextView
+        android:id="@+id/progress_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="Loading cities..."
+        app:layout_constraintStart_toStartOf="@id/progress_indicator"
+        app:layout_constraintEnd_toEndOf="@id/progress_indicator"
+        app:layout_constraintTop_toBottomOf="@id/progress_indicator"
+        />
 
 <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/city_recycler_view"

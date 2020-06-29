@@ -20,6 +20,8 @@ import fi.henrimakela.backbase_challenge.recyclerview.OnCitySelectedListener
 import fi.henrimakela.backbase_challenge.repository.CityRepository
 import fi.henrimakela.backbase_challenge.view_models.CityListViewModel
 import kotlinx.android.synthetic.main.fragment_city_list.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 /**
@@ -43,12 +45,24 @@ class CityListFragment : Fragment(), OnCitySelectedListener {
         return inflater.inflate(R.layout.fragment_city_list, container, false)
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProvider(findNavController().getViewModelStoreOwner(R.id.app_nav_graph)).get(CityListViewModel::class.java)
         cityListAdapter = CityListAdapter(arrayListOf(), this)
         city_recycler_view.adapter = cityListAdapter
         city_recycler_view.layoutManager = LinearLayoutManager(this.context)
+
+        viewModel.isLoadingCities.observe(viewLifecycleOwner, Observer {
+            if(it){
+                progress_indicator.visibility = View.VISIBLE
+                progress_label.visibility = View.VISIBLE
+            }
+            else{
+                progress_indicator.visibility = View.GONE
+                progress_label.visibility = View.GONE
+            }
+        })
 
         viewModel.cityList.observe(viewLifecycleOwner, Observer {
             println(it)
