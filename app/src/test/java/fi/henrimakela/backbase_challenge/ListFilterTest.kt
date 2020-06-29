@@ -49,7 +49,7 @@ class ListFilterTest {
     }
 
     @Test
-    fun `should ignore case in front of the search word`(){
+    fun `should ignore case of the search word`(){
         var filteredList = ListFilterer.filterResults(ArrayList(cityList), "OULU")
         assertThat(filteredList, Matchers.hasItem(Matchers.hasProperty("name", `is`("Oulu"))))
     }

@@ -95,7 +95,12 @@ class CityListFragment : Fragment(), OnCitySelectedListener {
     override fun OnCitySelected(city: City) {
         viewModel.setSelectedCity(city)
 
-        Navigation.findNavController(this.requireView()).navigate(R.id.mapFragment)
+        val isLandscape = requireContext().resources.getBoolean(R.bool.isLandscape)
+
+        if(!isLandscape){
+            Navigation.findNavController(this.requireView()).navigate(R.id.mapFragment)
+        }
+
     }
 
 }
