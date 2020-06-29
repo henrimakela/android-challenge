@@ -5,9 +5,9 @@ import fi.henrimakela.backbase_challenge.data_classes.City
 class ListFilterer {
 
     companion object{
-        fun filterResults(list : ArrayList<City>, searchWord: String): ArrayList<City>{
+        fun filterResults(list : ArrayList<City>, constraint: String): ArrayList<City>{
 
-
+            val searchWord = constraint.trim()
 
             if(searchWord.isNullOrEmpty()){
                 return list

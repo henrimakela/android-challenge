@@ -54,7 +54,7 @@ class CityListAdapter(var cityList: ArrayList<City>, val listener: OnCitySelecte
 
 
             val results = FilterResults()
-            results.values = ListFilterer.filterResults(cityListFull, constraint.toString().trim())
+            results.values = ListFilterer.filterResults(cityListFull, constraint.toString())
 
             return results
         }
