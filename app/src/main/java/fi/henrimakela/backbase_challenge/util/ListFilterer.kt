@@ -1,12 +1,15 @@
 package fi.henrimakela.backbase_challenge.util
 
+import android.util.Log
 import fi.henrimakela.backbase_challenge.data_classes.City
+import java.util.concurrent.TimeUnit
 
 class ListFilterer {
 
     companion object{
         fun filterResults(list : ArrayList<City>, constraint: String): ArrayList<City>{
 
+            val startTime = System.nanoTime()
             val searchWord = constraint.trim()
 
             if(searchWord.isNullOrEmpty()){
@@ -14,15 +17,7 @@ class ListFilterer {
             }
             var filteredList: ArrayList<City> = arrayListOf()
 
-            /*//linear approach
-            list.forEach {
-                if(it.name.startsWith(searchWord, true)){
-                    filteredList.add(it)
-                }
-            }*/
 
-
-            //non-linear approach
             //first, binary search and return the first object that matches with the searchword
             var index = binarySearch(list, searchWord)
 
@@ -55,6 +50,34 @@ class ListFilterer {
 
             }
 
+            val endTime = System.nanoTime()
+
+            // log the execution time
+            Log.d("TimingLoggerDemo","Binary search execution time: ${TimeUnit.MILLISECONDS.convert(endTime -
+                    startTime, TimeUnit.NANOSECONDS)} ms, (1)")
+
+            return filteredList
+        }
+
+        fun filterResultsLinear(list : ArrayList<City>, constraint: String) : ArrayList<City>{
+            val startTime = System.nanoTime()
+            val searchWord = constraint.trim()
+
+            if(searchWord.isNullOrEmpty()){
+                return list
+            }
+            var filteredList: ArrayList<City> = arrayListOf()
+
+            list.forEach {
+                if(it.name.startsWith(searchWord, true)){
+                    filteredList.add(it)
+                }
+            }
+            val endTime = System.nanoTime()
+
+
+            Log.d("TimingLoggerDemo","Linear search execution time: ${TimeUnit.MILLISECONDS.convert(endTime -
+                    startTime, TimeUnit.NANOSECONDS)} ms, (1)")
             return filteredList
         }
 

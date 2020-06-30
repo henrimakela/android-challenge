@@ -45,6 +45,7 @@ class CityListAdapter(var cityList: ArrayList<City>, val listener: OnCitySelecte
         notifyDataSetChanged()
     }
 
+
     override fun getFilter(): Filter {
         return filter
     }

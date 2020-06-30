@@ -1,7 +1,9 @@
 package fi.henrimakela.backbase_challenge.fragments
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 
@@ -36,6 +38,8 @@ class CityListFragment : Fragment(), OnCitySelectedListener {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,12 +79,15 @@ class CityListFragment : Fragment(), OnCitySelectedListener {
 
 
     }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
         activity?.menuInflater?.inflate(R.menu.city_list_menu, menu)
 
         var searchItem = menu.findItem(R.id.action_search)
         val searchView: SearchView = searchItem.actionView as SearchView
+
+        //since we are using runtime search, change keyboard submit button to done
+        searchView.imeOptions = EditorInfo.IME_ACTION_DONE
 
         searchView.setOnQueryTextListener(object : OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -93,19 +100,12 @@ class CityListFragment : Fragment(), OnCitySelectedListener {
             }
 
         })
-        super.onCreateOptionsMenu(menu, inflater)
+
     }
 
     override fun OnCitySelected(city: City) {
         viewModel.setSelectedCity(city)
-
-        val isLandscape = requireContext().resources.getBoolean(R.bool.isLandscape)
-        // If the device is in a landscape mode, we don't need to use the navigator since the landscape mode has it's own master-detail view
-
-        if(!isLandscape){
-            Navigation.findNavController(this.requireView()).navigate(R.id.mapFragment)
-        }
-
+        Navigation.findNavController(this.requireView()).navigate(R.id.mapFragment)
     }
 
 }

@@ -16,7 +16,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="Your api key" />
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize|keyboard"
+            >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
