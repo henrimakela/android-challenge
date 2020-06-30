@@ -54,5 +54,11 @@ class ListFilterTest {
         assertThat(filteredList, Matchers.hasItem(Matchers.hasProperty("name", `is`("Oulu"))))
     }
 
+    @Test
+    fun `should return empty results on invalid input`(){
+        var filteredList = ListFilterer.filterResults(ArrayList(cityList), "**-2")
+        assert(filteredList.isEmpty())
+    }
+
 
 }

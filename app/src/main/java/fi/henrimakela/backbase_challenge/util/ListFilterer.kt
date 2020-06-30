@@ -53,7 +53,7 @@ class ListFilterer {
             val endTime = System.nanoTime()
 
             // log the execution time
-            Log.d("TimingLoggerDemo","Binary search execution time: ${TimeUnit.MILLISECONDS.convert(endTime -
+            println("Binary search execution time: ${TimeUnit.MILLISECONDS.convert(endTime -
                     startTime, TimeUnit.NANOSECONDS)} ms, (1)")
 
             return filteredList
